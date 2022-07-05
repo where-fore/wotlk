@@ -50,8 +50,9 @@ func (priest *Priest) registerDevouringPlagueSpell() {
 			Label:    "DevouringPlague-" + strconv.Itoa(int(priest.Index)),
 			ActionID: actionID,
 		}),
-		NumberOfTicks: 8,
-		TickLength:    time.Second * 3,
+		AffectedByCastSpeed: true,
+		NumberOfTicks:       8,
+		TickLength:          time.Second * 3,
 		TickEffects: core.TickFuncSnapshot(target, core.SpellEffect{
 			ProcMask: core.ProcMaskPeriodicDamage,
 			DamageMultiplier: 1 *

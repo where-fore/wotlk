@@ -163,10 +163,10 @@ func (unit *Unit) UpdateManaRegenRates() {
 func (unit *Unit) ManaTick(sim *Simulation) {
 	if sim.CurrentTime < unit.PseudoStats.FiveSecondRuleRefreshTime {
 		regen := unit.manaTickWhileCasting
-		unit.AddMana(sim, MaxFloat(0, regen), unit.manaCastingMetrics, false)
+		unit.AddMana(sim, Max(0, regen), unit.manaCastingMetrics, false)
 	} else {
 		regen := unit.manaTickWhileNotCasting
-		unit.AddMana(sim, MaxFloat(0, regen), unit.manaNotCastingMetrics, false)
+		unit.AddMana(sim, Max(0, regen), unit.manaNotCastingMetrics, false)
 	}
 }
 

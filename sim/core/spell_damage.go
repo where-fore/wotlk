@@ -170,12 +170,12 @@ func BaseDamageConfigRangedWeapon(flatBonus float64) BaseDamageConfig {
 func BaseDamageFuncEnemyWeapon(hand Hand) BaseDamageCalculator {
 	if hand == MainHand {
 		return func(sim *Simulation, hitEffect *SpellEffect, spell *Spell) float64 {
-			ap := MaxFloat(0, spell.Unit.stats[stats.AttackPower])
+			ap := Max(0, spell.Unit.stats[stats.AttackPower])
 			return spell.Unit.AutoAttacks.MH.EnemyWeaponDamage(sim, ap)
 		}
 	} else {
 		return func(sim *Simulation, hitEffect *SpellEffect, spell *Spell) float64 {
-			ap := MaxFloat(0, spell.Unit.stats[stats.AttackPower])
+			ap := Max(0, spell.Unit.stats[stats.AttackPower])
 			return spell.Unit.AutoAttacks.MH.EnemyWeaponDamage(sim, ap) * 0.5
 		}
 	}

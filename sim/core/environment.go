@@ -172,7 +172,7 @@ func (env *Environment) IsFinalized() bool {
 }
 
 // The maximum possible duration for any iteration.
-func (env *Environment) GetMaxDuration() time.Duration {
+func (env *Environment) GetMax() time.Duration {
 	return env.BaseDuration + env.DurationVariation
 }
 

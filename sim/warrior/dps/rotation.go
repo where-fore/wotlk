@@ -192,8 +192,8 @@ func (war *DpsWarrior) tryQueueSlam(sim *core.Simulation) {
 	}
 
 	gcdReadyAgainAt := slamAt + core.GCDDefault
-	msDelay := core.MaxDuration(0, gcdReadyAgainAt-core.MaxDuration(sim.CurrentTime, war.MortalStrike.ReadyAt()))
-	wwDelay := core.MaxDuration(0, gcdReadyAgainAt-core.MaxDuration(sim.CurrentTime, war.Whirlwind.ReadyAt()))
+	msDelay := core.Max(0, gcdReadyAgainAt-core.Max(sim.CurrentTime, war.MortalStrike.ReadyAt()))
+	wwDelay := core.Max(0, gcdReadyAgainAt-core.Max(sim.CurrentTime, war.Whirlwind.ReadyAt()))
 	if sim.IsExecutePhase() {
 		if !war.Rotation.UseMsDuringExecute {
 			msDelay = 0

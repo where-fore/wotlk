@@ -266,7 +266,7 @@ func (unit *Unit) InitialCastSpeed() float64 {
 }
 
 func (unit *Unit) SpellGCD() time.Duration {
-	return MaxDuration(GCDMin, unit.ApplyCastSpeed(GCDDefault))
+	return Max(GCDMin, unit.ApplyCastSpeed(GCDDefault))
 }
 
 func (unit *Unit) updateCastSpeed() {

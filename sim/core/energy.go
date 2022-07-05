@@ -36,7 +36,7 @@ type energyBar struct {
 func (unit *Unit) EnableEnergyBar(maxEnergy float64, onEnergyGain OnEnergyGain) {
 	unit.energyBar = energyBar{
 		unit:         unit,
-		maxEnergy:    MaxFloat(100, maxEnergy),
+		maxEnergy:    Max(100, maxEnergy),
 		onEnergyGain: onEnergyGain,
 
 		regenMetrics:        unit.NewEnergyMetrics(ActionID{OtherID: proto.OtherAction_OtherActionEnergyRegen}),

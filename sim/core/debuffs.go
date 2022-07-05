@@ -403,11 +403,11 @@ func FaerieFireAura(target *Unit, level int32) *Aura {
 		Priority: float64(level),
 		OnGain: func(aura *Aura, sim *Simulation) {
 			aura.Unit.AddStatDynamic(sim, stats.Armor, -armorReduction)
-			aura.Unit.PseudoStats.BonusMeleeHitRating += float64(level) * MeleeHitRatingPerHitChance
+			aura.Unit.PseudoStats.BonusMeleeToHitRating += float64(level) * MeleeHitRatingPerHitChance
 		},
 		OnExpire: func(aura *Aura, sim *Simulation) {
 			aura.Unit.AddStatDynamic(sim, stats.Armor, armorReduction)
-			aura.Unit.PseudoStats.BonusMeleeHitRating -= float64(level) * MeleeHitRatingPerHitChance
+			aura.Unit.PseudoStats.BonusMeleeToHitRating -= float64(level) * MeleeHitRatingPerHitChance
 		},
 	})
 }

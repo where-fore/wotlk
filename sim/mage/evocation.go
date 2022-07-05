@@ -15,7 +15,7 @@ func (mage *Mage) registerEvocationCD() {
 		maxTicks++
 	}
 
-	numTicks := core.MaxInt32(0, core.MinInt32(maxTicks, mage.Options.EvocationTicks))
+	numTicks := core.Max(0, core.MinInt32(maxTicks, mage.Options.EvocationTicks))
 	if numTicks == 0 {
 		numTicks = maxTicks
 	}

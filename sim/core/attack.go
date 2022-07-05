@@ -573,7 +573,7 @@ func (aa *AutoAttacks) NextAttackAt() time.Duration {
 
 // Returns the time at which all melee swings will be ready.
 func (aa *AutoAttacks) MeleeSwingsReadyAt() time.Duration {
-	return MaxDuration(aa.MainhandSwingAt, aa.OffhandSwingAt)
+	return Max(aa.MainhandSwingAt, aa.OffhandSwingAt)
 }
 
 // Returns true if all melee weapons are ready for a swing.

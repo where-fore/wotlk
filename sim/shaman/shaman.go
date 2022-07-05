@@ -211,7 +211,7 @@ func (shaman *Shaman) AddPartyBuffs(partyBuffs *proto.PartyBuffs) {
 			partyBuffs.WindfuryTotemRank = shaman.Totems.WindfuryTotemRank
 			partyBuffs.WindfuryTotemIwt = shaman.Talents.ImprovedWeaponTotems
 		} else if shaman.Totems.WindfuryTotemRank == partyBuffs.WindfuryTotemRank {
-			partyBuffs.WindfuryTotemIwt = core.MaxInt32(partyBuffs.WindfuryTotemIwt, shaman.Talents.ImprovedWeaponTotems)
+			partyBuffs.WindfuryTotemIwt = core.Max(partyBuffs.WindfuryTotemIwt, shaman.Talents.ImprovedWeaponTotems)
 		}
 	}
 

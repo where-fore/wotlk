@@ -337,7 +337,7 @@ func (spellEffect *SpellEffect) applyAttackTableMiss(spell *Spell, unit *Unit, a
 	if unit.AutoAttacks.IsDualWielding && !unit.PseudoStats.DisableDWMissPenalty {
 		missChance += 0.19
 	}
-	*chance = MaxFloat(0, missChance)
+	*chance = Max(0, missChance)
 
 	if roll < *chance {
 		spellEffect.Outcome = OutcomeMiss
@@ -350,7 +350,7 @@ func (spellEffect *SpellEffect) applyAttackTableMiss(spell *Spell, unit *Unit, a
 
 func (spellEffect *SpellEffect) applyAttackTableMissNoDWPenalty(spell *Spell, unit *Unit, attackTable *AttackTable, roll float64, chance *float64) bool {
 	missChance := attackTable.BaseMissChance - spellEffect.PhysicalHitChance(unit, attackTable)
-	*chance = MaxFloat(0, missChance)
+	*chance = Max(0, missChance)
 
 	if roll < *chance {
 		spellEffect.Outcome = OutcomeMiss
@@ -367,14 +367,14 @@ func (spellEffect *SpellEffect) applyAttackTableBlock(spell *Spell, unit *Unit, 
 	if roll < *chance {
 		spellEffect.Outcome |= OutcomeBlock
 		spell.SpellMetrics[spellEffect.Target.TableIndex].Blocks++
-		spellEffect.Damage = MaxFloat(0, spellEffect.Damage-spellEffect.Target.GetStat(stats.BlockValue))
+		spellEffect.Damage = Max(0, spellEffect.Damage-spellEffect.Target.GetStat(stats.BlockValue))
 		return true
 	}
 	return false
 }
 
 func (spellEffect *SpellEffect) applyAttackTableDodge(spell *Spell, unit *Unit, attackTable *AttackTable, roll float64, chance *float64) bool {
-	*chance += MaxFloat(0, attackTable.BaseDodgeChance-spellEffect.ExpertisePercentage(unit)-unit.PseudoStats.DodgeReduction)
+	*chance += Max(0, attackTable.BaseDodgeChance-spellEffect.ExpertisePercentage(unit)-unit.PseudoStats.DodgeReduction)
 
 	if roll < *chance {
 		spellEffect.Outcome = OutcomeDodge
@@ -386,7 +386,7 @@ func (spellEffect *SpellEffect) applyAttackTableDodge(spell *Spell, unit *Unit, 
 }
 
 func (spellEffect *SpellEffect) applyAttackTableParry(spell *Spell, unit *Unit, attackTable *AttackTable, roll float64, chance *float64) bool {
-	*chance += MaxFloat(0, attackTable.BaseParryChance-spellEffect.ExpertisePercentage(unit))
+	*chance += Max(0, attackTable.BaseParryChance-spellEffect.ExpertisePercentage(unit))
 
 	if roll < *chance {
 		spellEffect.Outcome = OutcomeParry
@@ -442,7 +442,7 @@ func (spellEffect *SpellEffect) applyEnemyAttackTableMiss(spell *Spell, unit *Un
 	if unit.AutoAttacks.IsDualWielding && !unit.PseudoStats.DisableDWMissPenalty {
 		missChance += 0.19
 	}
-	*chance = MaxFloat(0, missChance)
+	*chance = Max(0, missChance)
 
 	if roll < *chance {
 		spellEffect.Outcome = OutcomeMiss
@@ -461,12 +461,12 @@ func (spellEffect *SpellEffect) applyEnemyAttackTableBlock(spell *Spell, unit *U
 	blockChance := attackTable.BaseBlockChance +
 		spellEffect.Target.stats[stats.Block]/BlockRatingPerBlockChance/100 +
 		spellEffect.Target.stats[stats.Defense]*DefenseRatingToChanceReduction
-	*chance += MaxFloat(0, blockChance)
+	*chance += Max(0, blockChance)
 
 	if roll < *chance {
 		spellEffect.Outcome |= OutcomeBlock
 		spell.SpellMetrics[spellEffect.Target.TableIndex].Blocks++
-		spellEffect.Damage = MaxFloat(0, spellEffect.Damage-spellEffect.Target.GetStat(stats.BlockValue))
+		spellEffect.Damage = Max(0, spellEffect.Damage-spellEffect.Target.GetStat(stats.BlockValue))
 		return true
 	}
 	return false
@@ -477,7 +477,7 @@ func (spellEffect *SpellEffect) applyEnemyAttackTableDodge(spell *Spell, unit *U
 		spellEffect.Target.stats[stats.Dodge]/DodgeRatingPerDodgeChance/100 +
 		spellEffect.Target.stats[stats.Defense]*DefenseRatingToChanceReduction -
 		unit.PseudoStats.DodgeReduction
-	*chance += MaxFloat(0, dodgeChance)
+	*chance += Max(0, dodgeChance)
 
 	if roll < *chance {
 		spellEffect.Outcome = OutcomeDodge
@@ -496,7 +496,7 @@ func (spellEffect *SpellEffect) applyEnemyAttackTableParry(spell *Spell, unit *U
 	parryChance := attackTable.BaseParryChance +
 		spellEffect.Target.stats[stats.Parry]/ParryRatingPerParryChance/100 +
 		spellEffect.Target.stats[stats.Defense]*DefenseRatingToChanceReduction
-	*chance += MaxFloat(0, parryChance)
+	*chance += Max(0, parryChance)
 
 	if roll < *chance {
 		spellEffect.Outcome = OutcomeParry
@@ -513,7 +513,7 @@ func (spellEffect *SpellEffect) applyEnemyAttackTableCrit(spell *Spell, unit *Un
 	critChance -= spellEffect.Target.stats[stats.Defense] * DefenseRatingToChanceReduction
 	critChance -= spellEffect.Target.stats[stats.Resilience] / ResilienceRatingPerCritReductionChance / 100
 	critChance -= spellEffect.Target.PseudoStats.ReducedCritTakenChance
-	*chance += MaxFloat(0, critChance)
+	*chance += Max(0, critChance)
 
 	if roll < *chance {
 		spellEffect.Outcome = OutcomeCrit

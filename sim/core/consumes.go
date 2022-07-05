@@ -1204,7 +1204,7 @@ func registerConjuredCD(agent Agent, consumes proto.Consumes) {
 			ActivationFactory: func(sim *Simulation) CooldownActivation {
 				expectedManaPerUsage := float64((900 + 600) / 2)
 
-				remainingUsages := int(1 + (MaxDuration(0, sim.Duration))/(time.Minute*2))
+				remainingUsages := int(1 + (Max(0, sim.Duration))/(time.Minute*2))
 
 				if consumes.DefaultConjured == proto.Conjured_ConjuredDarkRune {
 					character.ExpectedBonusMana += expectedManaPerUsage * float64(remainingUsages)

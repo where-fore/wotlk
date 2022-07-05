@@ -19,7 +19,7 @@ func (mage *Mage) newArcaneBlastSpell(numStacks int32) *core.Spell {
 		OnExpire: func(aura *core.Aura, sim *core.Simulation) {
 			// Reset the mana cost on expiration.
 			for i := int32(0); i < 4; i++ {
-				mage.ArcaneBlast[i].CurCast.Cost = core.MaxFloat(0, mage.ArcaneBlast[i].CurCast.Cost-3.0*ArcaneBlastBaseManaCost*0.75)
+				mage.ArcaneBlast[i].CurCast.Cost = core.Max(0, mage.ArcaneBlast[i].CurCast.Cost-3.0*ArcaneBlastBaseManaCost*0.75)
 			}
 		},
 	})

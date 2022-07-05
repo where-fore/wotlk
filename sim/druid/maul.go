@@ -54,7 +54,7 @@ func (druid *Druid) registerMaulSpell(rageThreshold float64) {
 		Duration: core.NeverExpires,
 	})
 
-	druid.MaulRageThreshold = core.MaxFloat(druid.Maul.DefaultCast.Cost, rageThreshold)
+	druid.MaulRageThreshold = core.Max(druid.Maul.DefaultCast.Cost, rageThreshold)
 }
 
 func (druid *Druid) QueueMaul(sim *core.Simulation) {

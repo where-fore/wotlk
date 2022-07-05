@@ -813,7 +813,7 @@ func registerInnervateCD(agent Agent, numInnervates int32) {
 	character.Env.RegisterPostFinalizeEffect(func() {
 		innervateThreshold = InnervateManaThreshold(character)
 		expectedManaPerInnervate = character.SpiritManaRegenPerSecond() * 5 * 20
-		remainingInnervateUsages = int(1 + (MaxDuration(0, character.Env.BaseDuration))/InnervateCD)
+		remainingInnervateUsages = int(1 + (Max(0, character.Env.BaseDuration))/InnervateCD)
 		character.ExpectedBonusMana += expectedManaPerInnervate * float64(remainingInnervateUsages)
 		innervateAura = InnervateAura(character, expectedManaPerInnervate, -1)
 	})
@@ -839,7 +839,7 @@ func registerInnervateCD(agent Agent, numInnervates int32) {
 
 				newRemainingUsages := int(sim.GetRemainingDuration() / InnervateCD)
 				// AddInnervateAura already accounts for 1 usage, which is why we subtract 1 less.
-				character.ExpectedBonusMana -= expectedManaPerInnervate * MaxFloat(0, float64(remainingInnervateUsages-newRemainingUsages-1))
+				character.ExpectedBonusMana -= expectedManaPerInnervate * Max(0, float64(remainingInnervateUsages-newRemainingUsages-1))
 				remainingInnervateUsages = newRemainingUsages
 			},
 		},
@@ -903,7 +903,7 @@ func registerManaTideTotemCD(agent Agent, numManaTideTotems int32) {
 		initialDelay = MinDuration(character.Env.BaseDuration/2, time.Second*60)
 
 		expectedManaPerManaTideTotem = ManaTideTotemAmount(character)
-		remainingManaTideTotemUsages = int(1 + MaxDuration(0, character.Env.BaseDuration-initialDelay)/ManaTideTotemCD)
+		remainingManaTideTotemUsages = int(1 + Max(0, character.Env.BaseDuration-initialDelay)/ManaTideTotemCD)
 		character.ExpectedBonusMana += expectedManaPerManaTideTotem * float64(remainingManaTideTotemUsages)
 		mttAura = ManaTideTotemAura(character, -1)
 	})
@@ -929,7 +929,7 @@ func registerManaTideTotemCD(agent Agent, numManaTideTotems int32) {
 
 				newRemainingUsages := int(sim.GetRemainingDuration() / ManaTideTotemCD)
 				// AddManaTideTotemAura already accounts for 1 usage, which is why we subtract 1 less.
-				character.ExpectedBonusMana -= expectedManaPerManaTideTotem * MaxFloat(0, float64(remainingManaTideTotemUsages-newRemainingUsages-1))
+				character.ExpectedBonusMana -= expectedManaPerManaTideTotem * Max(0, float64(remainingManaTideTotemUsages-newRemainingUsages-1))
 				remainingManaTideTotemUsages = newRemainingUsages
 			},
 		},

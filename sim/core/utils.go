@@ -5,18 +5,18 @@ import (
 	"time"
 
 	"github.com/wowsims/wotlk/sim/core/proto"
+	"golang.org/x/exp/constraints"
 )
+
+func Max[T constraints.Ordered](a, b T) T {
+	if a > b {
+		return a
+	}
+	return b
+}
 
 func MinInt(a int, b int) int {
 	if a < b {
-		return a
-	} else {
-		return b
-	}
-}
-
-func MaxInt(a int, b int) int {
-	if a > b {
 		return a
 	} else {
 		return b
@@ -31,14 +31,6 @@ func MinInt32(a int32, b int32) int32 {
 	}
 }
 
-func MaxInt32(a int32, b int32) int32 {
-	if a > b {
-		return a
-	} else {
-		return b
-	}
-}
-
 func MinFloat(a float64, b float64) float64 {
 	if a < b {
 		return a
@@ -47,24 +39,8 @@ func MinFloat(a float64, b float64) float64 {
 	}
 }
 
-func MaxFloat(a float64, b float64) float64 {
-	if a > b {
-		return a
-	} else {
-		return b
-	}
-}
-
 func MinDuration(a time.Duration, b time.Duration) time.Duration {
 	if a < b {
-		return a
-	} else {
-		return b
-	}
-}
-
-func MaxDuration(a time.Duration, b time.Duration) time.Duration {
-	if a > b {
 		return a
 	} else {
 		return b

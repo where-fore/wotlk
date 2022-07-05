@@ -118,12 +118,12 @@ func (spellEffect *SpellEffect) ExpertisePercentage(unit *Unit) float64 {
 }
 
 func (spellEffect *SpellEffect) PhysicalHitChance(unit *Unit, attackTable *AttackTable) float64 {
-	hitRating := unit.stats[stats.MeleeHit] + spellEffect.Target.PseudoStats.BonusMeleeHitRating
+	hitRating := unit.stats[stats.MeleeHit] + spellEffect.Target.PseudoStats.BonusMeleeToHitRating
 
 	if spellEffect.ProcMask.Matches(ProcMaskRanged) {
 		hitRating += unit.PseudoStats.BonusRangedHitRating
 	}
-	return MaxFloat((hitRating/(MeleeHitRatingPerHitChance*100))-attackTable.HitSuppression, 0)
+	return Max((hitRating/(MeleeHitRatingPerHitChance*100))-attackTable.HitSuppression, 0)
 }
 
 func (spellEffect *SpellEffect) PhysicalCritChance(unit *Unit, spell *Spell, attackTable *AttackTable) float64 {
@@ -262,7 +262,7 @@ func (spellEffect *SpellEffect) applyTargetModifiers(sim *Simulation, spell *Spe
 	target := spellEffect.Target
 
 	spellEffect.Damage *= target.PseudoStats.DamageTakenMultiplier
-	spellEffect.Damage = MaxFloat(0, spellEffect.Damage+target.PseudoStats.BonusDamageTaken)
+	spellEffect.Damage = Max(0, spellEffect.Damage+target.PseudoStats.BonusDamageTaken)
 	if spell.SpellSchool.Matches(SpellSchoolPhysical) {
 		if spellEffect.IsPeriodic {
 			spellEffect.Damage *= target.PseudoStats.PeriodicPhysicalDamageTakenMultiplier

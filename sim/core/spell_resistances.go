@@ -45,8 +45,8 @@ func (spellEffect *SpellEffect) applyResistances(sim *Simulation, spell *Spell, 
 
 // ArmorDamageReduction currently assumes a level 70 attacker
 func (at *AttackTable) UpdateArmorDamageReduction() {
-	effectiveArmor := MaxFloat(0, at.Defender.stats[stats.Armor]-at.Attacker.stats[stats.ArmorPenetration])
-	at.ArmorDamageReduction = MaxFloat(0.25, 1-(effectiveArmor/(effectiveArmor+(float64(at.Attacker.Level)*467.5-22167.5))))
+	effectiveArmor := Max(0, at.Defender.stats[stats.Armor]-at.Attacker.stats[stats.ArmorPenetration])
+	at.ArmorDamageReduction = Max(0.25, 1-(effectiveArmor/(effectiveArmor+(float64(at.Attacker.Level)*467.5-22167.5))))
 }
 
 func (at *AttackTable) UpdatePartialResists() {
@@ -100,7 +100,7 @@ func (at *AttackTable) GetBinaryHitChance(ss SpellSchool) float64 {
 func (unit *Unit) resistCoeff(school SpellSchool, attacker *Unit, binary bool) float64 {
 	resistanceCap := float64(unit.Level * 5)
 
-	resistance := MaxFloat(0, unit.GetStat(school.ResistanceStat())-attacker.stats[stats.SpellPenetration])
+	resistance := Max(0, unit.GetStat(school.ResistanceStat())-attacker.stats[stats.SpellPenetration])
 	if school == SpellSchoolHoly {
 		resistance = 0
 	}
@@ -109,7 +109,7 @@ func (unit *Unit) resistCoeff(school SpellSchool, attacker *Unit, binary bool) f
 	if !binary {
 		levelBasedResistance := 0.0
 		if unit.Type == EnemyUnit {
-			levelBasedResistance = LevelBasedNPCSpellResistancePerLevel * float64(MaxInt32(0, unit.Level-attacker.Level))
+			levelBasedResistance = LevelBasedNPCSpellResistancePerLevel * float64(Max(0, unit.Level-attacker.Level))
 		}
 		effectiveResistance += levelBasedResistance
 	}

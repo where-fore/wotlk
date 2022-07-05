@@ -10,7 +10,7 @@ import (
 type healthBar struct {
 	unit *Unit
 
-	currentHealth  float64
+	currentHealth float64
 
 	DamageTakenHealthMetrics *ResourceMetrics
 }
@@ -68,7 +68,7 @@ func (hb *healthBar) RemoveHealth(sim *Simulation, amount float64) {
 	}
 
 	oldHealth := hb.currentHealth
-	newHealth := MaxFloat(oldHealth-amount, 0)
+	newHealth := Max(oldHealth-amount, 0)
 	metrics := hb.DamageTakenHealthMetrics
 	metrics.AddEvent(-amount, newHealth-oldHealth)
 

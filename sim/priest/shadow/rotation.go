@@ -198,7 +198,7 @@ func (spriest *ShadowPriest) IdealMindflayRotation(sim *core.Simulation, allCDs 
 	}
 
 	// TODO: Should spriest latency be added to the second option here?
-	mfTime := core.MaxDuration(gcd, time.Duration(numTicks)*tickLength)
+	mfTime := core.Max(gcd, time.Duration(numTicks)*tickLength)
 
 	// Amount of gap time after casting mind flay, but before each CD is available.
 	cdDiffs := []time.Duration{

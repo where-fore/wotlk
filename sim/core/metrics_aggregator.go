@@ -33,7 +33,7 @@ func (distMetrics *DistributionMetrics) doneIteration(encounterDurationSeconds f
 
 	distMetrics.sum += dps
 	distMetrics.sumSquared += dps * dps
-	distMetrics.max = MaxFloat(distMetrics.max, dps)
+	distMetrics.max = Max(distMetrics.max, dps)
 
 	dpsRounded := int32(math.Round(dps/10) * 10)
 	distMetrics.hist[dpsRounded]++

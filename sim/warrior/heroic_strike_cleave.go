@@ -135,5 +135,5 @@ func (warrior *Warrior) RegisterHSOrCleave(useCleave bool, rageThreshold float64
 		Duration: core.NeverExpires,
 	})
 
-	warrior.HSRageThreshold = core.MaxFloat(warrior.HeroicStrikeOrCleave.DefaultCast.Cost, rageThreshold)
+	warrior.HSRageThreshold = core.Max(warrior.HeroicStrikeOrCleave.DefaultCast.Cost, rageThreshold)
 }

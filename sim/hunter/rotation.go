@@ -20,7 +20,7 @@ const (
 func (hunter *Hunter) OnManaTick(sim *core.Simulation) {
 	if hunter.currentAspect == hunter.AspectOfTheViperAura {
 		// https://wowpedia.fandom.com/wiki/Aspect_of_the_Viper?oldid=1458832
-		percentMana := core.MaxFloat(0.2, core.MinFloat(0.9, hunter.CurrentManaPercent()))
+		percentMana := core.Max(0.2, core.MinFloat(0.9, hunter.CurrentManaPercent()))
 		scaling := 22.0/35.0*(0.9-percentMana) + 0.11
 		if hunter.hasGronnstalker2Pc {
 			scaling += 0.05
@@ -137,11 +137,11 @@ func (hunter *Hunter) lazyRotation(sim *core.Simulation, followsRangedAuto bool)
 }
 
 func (hunter *Hunter) adaptiveRotation(sim *core.Simulation, followsRangedAuto bool) {
-	gcdAtDuration := core.MaxDuration(sim.CurrentTime, hunter.NextGCDAt())
-	shootAtDuration := core.MaxDuration(sim.CurrentTime, hunter.AutoAttacks.RangedSwingAt)
-	weaveAtDuration := core.MaxDuration(sim.CurrentTime, hunter.AutoAttacks.MainhandSwingAt)
+	gcdAtDuration := core.Max(sim.CurrentTime, hunter.NextGCDAt())
+	shootAtDuration := core.Max(sim.CurrentTime, hunter.AutoAttacks.RangedSwingAt)
+	weaveAtDuration := core.Max(sim.CurrentTime, hunter.AutoAttacks.MainhandSwingAt)
 	if hunter.Rotation.Weave == proto.Hunter_Rotation_WeaveRaptorOnly {
-		weaveAtDuration = core.MaxDuration(weaveAtDuration, hunter.RaptorStrike.CD.ReadyAt())
+		weaveAtDuration = core.Max(weaveAtDuration, hunter.RaptorStrike.CD.ReadyAt())
 	}
 
 	gcdAt := gcdAtDuration.Seconds()
@@ -194,19 +194,19 @@ func (hunter *Hunter) adaptiveRotation(sim *core.Simulation, followsRangedAuto b
 
 	// DPS from choosing to auto next.
 	shootDoneAt := shootAt + hunter.rangedWindup
-	shootGCDDelay := core.MaxFloat(0, shootDoneAt-gcdAt)
+	shootGCDDelay := core.Max(0, shootDoneAt-gcdAt)
 	dmgResults[OptionShoot] = hunter.avgShootDmg - (hunter.steadyDPS * shootGCDDelay)
 
 	waitingForMana := hunter.IsWaitingForMana()
 	if !waitingForMana {
 		// Dmg from choosing Steady Shot next.
-		steadyShootDelay := core.MaxFloat(0, (gcdAt+hunter.steadyShotCastTime)-shootAt)
+		steadyShootDelay := core.Max(0, (gcdAt+hunter.steadyShotCastTime)-shootAt)
 		dmgResults[OptionSteady] = hunter.avgSteadyDmg - (hunter.shootDPS * steadyShootDelay)
 
 		// Dmg from choosing Multi Shot next.
 		canMulti := hunter.Rotation.UseMultiShot && hunter.MultiShot.CD.ReadyAt() <= hunter.NextGCDAt()
 		if canMulti {
-			multiShootDelay := core.MaxFloat(0, (gcdAt+hunter.multiShotCastTime)-shootAt)
+			multiShootDelay := core.Max(0, (gcdAt+hunter.multiShotCastTime)-shootAt)
 
 			// If ranged swing speed lines up closely with GCD without any clipping, then
 			// its never worth saving MS to use for the lower cast time.
@@ -218,7 +218,7 @@ func (hunter *Hunter) adaptiveRotation(sim *core.Simulation, followsRangedAuto b
 		// Dmg from choosing Arcane Shot next.
 		canArcane := hunter.Rotation.UseArcaneShot && hunter.ArcaneShot.CD.ReadyAt() <= hunter.NextGCDAt()
 		if canArcane {
-			arcaneShootDelay := core.MaxFloat(0, (gcdAt+hunter.arcaneShotCastTime)-shootAt)
+			arcaneShootDelay := core.Max(0, (gcdAt+hunter.arcaneShotCastTime)-shootAt)
 			dmgResults[OptionArcane] = hunter.avgArcaneDmg - (hunter.shootDPS * arcaneShootDelay)
 		}
 	}
@@ -233,22 +233,22 @@ func (hunter *Hunter) adaptiveRotation(sim *core.Simulation, followsRangedAuto b
 	if canWeave {
 		// Dmg from choosing to weave next.
 		weaveCastTime := hunter.timeToWeave.Seconds()
-		weaveShootDelay := core.MaxFloat(0, (weaveAt+weaveCastTime)-shootAt)
-		weaveGCDDelay := core.MaxFloat(0, (weaveAt+weaveCastTime)-gcdAt)
+		weaveShootDelay := core.Max(0, (weaveAt+weaveCastTime)-shootAt)
+		weaveGCDDelay := core.Max(0, (weaveAt+weaveCastTime)-gcdAt)
 		dmgResults[OptionWeave] = hunter.avgWeaveDmg -
 			(hunter.steadyDPS * weaveGCDDelay) -
 			(hunter.shootDPS * weaveShootDelay)
 
-		shootWeaveDelay := core.MaxFloat(0, shootDoneAt-weaveAt)
+		shootWeaveDelay := core.Max(0, shootDoneAt-weaveAt)
 		dmgResults[OptionShoot] -= hunter.weaveDPS * shootWeaveDelay
 
-		steadyWeaveDelay := core.MaxFloat(0, (gcdAt+hunter.steadyShotCastTime)-weaveAt)
+		steadyWeaveDelay := core.Max(0, (gcdAt+hunter.steadyShotCastTime)-weaveAt)
 		dmgResults[OptionSteady] -= hunter.weaveDPS * steadyWeaveDelay
 
-		multiWeaveDelay := core.MaxFloat(0, (gcdAt+hunter.multiShotCastTime)-weaveAt)
+		multiWeaveDelay := core.Max(0, (gcdAt+hunter.multiShotCastTime)-weaveAt)
 		dmgResults[OptionMulti] -= hunter.weaveDPS * multiWeaveDelay
 
-		arcaneWeaveDelay := core.MaxFloat(0, gcdAt-weaveAt)
+		arcaneWeaveDelay := core.Max(0, gcdAt-weaveAt)
 		dmgResults[OptionArcane] -= hunter.weaveDPS * arcaneWeaveDelay
 	}
 

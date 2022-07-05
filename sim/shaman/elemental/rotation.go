@@ -188,7 +188,7 @@ func (rotation *AdaptiveRotation) DoAction(eleShaman *ElementalShaman, sim *core
 	if sim.GetNumTargets() == 1 {
 		sp := eleShaman.GetStat(stats.NatureSpellPower) + eleShaman.GetStat(stats.SpellPower)
 		lb := ((612 + (sp * 0.794)) * 1.2) / (2 * eleShaman.CastSpeed)
-		cl := ((786 + (sp * 0.651)) * 1.0666) / core.MaxFloat((1.5*eleShaman.CastSpeed), 1)
+		cl := ((786 + (sp * 0.651)) * 1.0666) / core.Max((1.5*eleShaman.CastSpeed), 1)
 		if eleShaman.has4pT6 {
 			lb *= 1.05
 		}

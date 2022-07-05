@@ -12,7 +12,7 @@ import (
 
 func (enh *EnhancementShaman) SetupRotationSchedule() {
 	// Fill the GCD schedule based on our settings.
-	maxDuration := enh.Env.GetMaxDuration()
+	maxDuration := enh.Env.GetMax()
 
 	var curTime time.Duration
 

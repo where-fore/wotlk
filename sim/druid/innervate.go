@@ -44,7 +44,7 @@ func (druid *Druid) registerInnervateCD() {
 		}
 		innervateAura = core.InnervateAura(innervateTarget, expectedManaPerInnervate, actionID.Tag)
 
-		remainingInnervateUsages = int(1 + (core.MaxDuration(0, sim.Duration))/innervateCD)
+		remainingInnervateUsages = int(1 + (core.Max(0, sim.Duration))/innervateCD)
 		innervateTarget.ExpectedBonusMana += expectedManaPerInnervate * float64(remainingInnervateUsages)
 	})
 

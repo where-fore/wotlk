@@ -116,7 +116,7 @@ func (hp *HunterPet) Reset(sim *core.Simulation) {
 		hp.Log(sim, "Inherited Pet stats: %s", inheritedStats)
 	}
 
-	hp.uptimePercent = core.MinFloat(1, core.MaxFloat(0, hp.hunterOwner.Options.PetUptime))
+	hp.uptimePercent = core.MinFloat(1, core.Max(0, hp.hunterOwner.Options.PetUptime))
 }
 
 func (hp *HunterPet) OnGCDReady(sim *core.Simulation) {

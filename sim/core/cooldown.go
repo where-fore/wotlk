@@ -44,7 +44,7 @@ func (timer *Timer) Reset() {
 }
 
 func (timer *Timer) TimeToReady(sim *Simulation) time.Duration {
-	return MaxDuration(0, time.Duration(*timer)-sim.CurrentTime)
+	return Max(0, time.Duration(*timer)-sim.CurrentTime)
 }
 
 func (timer *Timer) IsReady(sim *Simulation) bool {
@@ -62,7 +62,7 @@ func BothTimersReadyAt(t1 *Timer, t2 *Timer) time.Duration {
 		readyAt = t1.ReadyAt()
 	}
 	if t2 != nil {
-		readyAt = MaxDuration(readyAt, t2.ReadyAt())
+		readyAt = Max(readyAt, t2.ReadyAt())
 	}
 	return readyAt
 }
@@ -77,7 +77,7 @@ func MaxTimeToReady(t1 *Timer, t2 *Timer, sim *Simulation) time.Duration {
 		remaining = t1.TimeToReady(sim)
 	}
 	if t2 != nil {
-		remaining = MaxDuration(remaining, t2.TimeToReady(sim))
+		remaining = Max(remaining, t2.TimeToReady(sim))
 	}
 	return remaining
 }

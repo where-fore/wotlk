@@ -87,7 +87,7 @@ func (unit *Unit) EnableRageBar(startingRage float64, rageMultiplier float64, on
 
 	unit.rageBar = rageBar{
 		unit:         unit,
-		startingRage: MaxFloat(0, MinFloat(startingRage, MaxRage)),
+		startingRage: Max(0, MinFloat(startingRage, MaxRage)),
 		onRageGain:   onRageGain,
 
 		RageRefundMetrics: unit.NewRageMetrics(ActionID{OtherID: proto.OtherAction_OtherActionRefund}),
