@@ -40,6 +40,7 @@ type DpsWarrior struct {
 
 	maintainSunder  bool
 	thunderClapNext bool
+	sundersCast     int
 
 	castSlamAt time.Duration
 }
@@ -158,4 +159,5 @@ func (war *DpsWarrior) Reset(sim *core.Simulation) {
 	war.maintainSunder = war.Rotation.SunderArmor != proto.Warrior_Rotation_SunderArmorNone
 	war.castSlamAt = 0
 	war.thunderClapNext = false
+	war.sundersCast = 0
 }

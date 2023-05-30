@@ -52,6 +52,7 @@ func (war *DpsWarrior) doRotation(sim *core.Simulation) {
 		} else {
 			war.SunderArmor.Cast(sim, war.CurrentTarget)
 			war.lastSunderAt = sim.CurrentTime
+			war.sundersCast += 1
 		}
 		war.tryQueueHsCleave(sim)
 		return
@@ -280,10 +281,12 @@ func (war *DpsWarrior) shouldSunder(sim *core.Simulation) bool {
 
 	saAura := war.SunderArmorAuras.Get(war.CurrentTarget)
 	stacks := saAura.GetStacks()
-	if war.Rotation.SunderArmor == proto.Warrior_Rotation_SunderArmorHelpStack && stacks == 5 {
+	if war.Rotation.SunderArmor == proto.Warrior_Rotation_SunderArmorHelpStack && war.sundersCast >= 3 {
 		war.maintainSunder = false
 	}
-
+	if war.Rotation.SunderArmor == proto.Warrior_Rotation_SunderArmorHelpStack && war.sundersCast < 3 {
+		return true
+	}
 	return stacks < 5 || (war.lastSunderAt+30*time.Second-sim.CurrentTime) <= SunderWindow
 }
 
